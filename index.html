@@ -4,133 +4,437 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>eBook Pro | Premium Reading Experience</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'media', // Automatically uses system preference (Light/Dark mode)
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#1C1C1E',
-                            accent: '#D4AF37', 
-                            light: '#F2F2F7'
+                            bg: '#050505',
+                            dark: '#0A0A0A',
+                            accent: '#D4AF37', // Classic Gold
+                            accentDark: '#B8860B', // Darker gold for light mode contrast
+                            surface: '#121212',
+                            light: '#F9FAFB', // Beautiful off-white for light mode
+                            surfaceLight: '#FFFFFF'
                         }
                     },
                     fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
-                        serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
+        /* Base Dynamic Styles */
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dynamic Glass Panel - Adjusts based on system theme */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        /* Dynamic Gold Text Gradient */
+        .gold-text-gradient {
+            background: linear-gradient(135deg, #B8860B 0%, #D4AF37 50%, #996515 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Dark Mode Overrides */
+        @media (prefers-color-scheme: dark) {
+            .glass-panel {
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            }
+            .gold-text-gradient {
+                background: linear-gradient(135deg, #FFF 0%, #D4AF37 50%, #B8860B 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* Accordion transition */
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        
+        /* Background Glows */
+        .glow-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        @media (prefers-color-scheme: light) {
+            .glow-circle {
+                background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, rgba(212,175,55,0) 70%);
+            }
         }
     </style>
 </head>
-<body class="bg-brand-dark text-white font-sans antialiased selection:bg-brand-accent selection:text-black">
+<body class="bg-brand-light text-gray-900 dark:bg-brand-bg dark:text-white antialiased selection:bg-brand-accent selection:text-black min-h-screen flex flex-col overflow-x-hidden">
+
+    <!-- Global Background Elements -->
+    <div class="fixed top-[-20%] left-[-10%] w-[50vw] h-[50vw] glow-circle"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[40vw] h-[40vw] glow-circle opacity-50"></div>
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 glass-panel border-b border-white/10">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 rounded-full bg-brand-accent/20 flex items-center justify-center">
-                    <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+    <nav class="fixed w-full z-50 glass-panel border-b-0 rounded-none">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center relative">
+            
+            <!-- Logo -->
+            <button onclick="switchView('home')" class="flex items-center gap-3 group focus:outline-none">
+                <div class="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center group-hover:bg-brand-accent/20 transition-colors">
+                    <svg class="w-6 h-6 text-brand-accentDark dark:text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 </div>
-                <span class="text-xl font-bold tracking-tight">eBook Pro</span>
+                <span class="text-xl font-bold tracking-tight font-serif text-gray-900 dark:text-white group-hover:text-brand-accentDark dark:group-hover:text-brand-accent transition-colors">eBook Pro</span>
+            </button>
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex gap-8 text-sm font-medium text-gray-600 dark:text-gray-400" id="nav-links">
+                <a href="#features" onclick="switchView('home')" class="hover:text-brand-accentDark dark:hover:text-brand-accent transition-colors">Features</a>
+                <a href="#pricing" onclick="switchView('home')" class="hover:text-brand-accentDark dark:hover:text-brand-accent transition-colors">Pricing</a>
+                <a href="#roadmap" onclick="switchView('home')" class="hover:text-brand-accentDark dark:hover:text-brand-accent transition-colors">Roadmap</a>
+                <button onclick="switchView('legal')" class="hover:text-brand-accentDark dark:hover:text-brand-accent transition-colors focus:outline-none">Legal</button>
             </div>
-            <div class="hidden md:flex gap-6 text-sm font-medium text-gray-300">
-                <a href="#about" class="hover:text-brand-accent transition-colors">Features</a>
-                <a href="#pricing" class="hover:text-brand-accent transition-colors">Pricing</a>
-                <a href="#legal" class="hover:text-brand-accent transition-colors">Legal & Policies</a>
-                <a href="#contact" class="hover:text-brand-accent transition-colors">Contact</a>
+            
+            <!-- Mobile Menu Toggle Button -->
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none p-2 rounded-lg bg-gray-100 dark:bg-white/5">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden absolute w-full glass-panel border-t border-gray-200 dark:border-white/10 shadow-2xl">
+            <div class="flex flex-col px-6 py-4 space-y-4 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <a href="#features" onclick="closeMobileMenuAndSwitch('home')" class="hover:text-brand-accent block py-2">Features</a>
+                <a href="#pricing" onclick="closeMobileMenuAndSwitch('home')" class="hover:text-brand-accent block py-2">Pricing</a>
+                <a href="#roadmap" onclick="closeMobileMenuAndSwitch('home')" class="hover:text-brand-accent block py-2">Roadmap</a>
+                <button onclick="closeMobileMenuAndSwitch('legal')" class="hover:text-brand-accent text-left py-2 w-full">Legal & Policies</button>
+                <a href="https://ebookpro.web.app" target="_blank" class="text-brand-accent font-bold py-2">Launch Web App →</a>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden px-6">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-accent/20 rounded-full blur-[120px] opacity-50 pointer-events-none"></div>
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight font-serif">Read smarter, <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-200">not harder.</span></h1>
-            <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">A premium digital reading experience with AI-powered explanations, smart flashcards, and cross-device cloud sync.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <div class="px-8 py-4 rounded-full bg-white text-black font-semibold shadow-[0_0_40px_rgba(212,175,55,0.3)] opacity-80 cursor-not-allowed">
-                    App Store (Coming Soon)
+    <!-- ============================================== -->
+    <!-- VIEW: HOME (Main Landing Page)                 -->
+    <!-- ============================================== -->
+    <main id="view-home" class="relative z-10 block flex-grow">
+        
+        <!-- Hero Section -->
+        <header class="pt-40 pb-20 md:pt-48 md:pb-32 px-6">
+            <div class="max-w-5xl mx-auto text-center relative z-10 reveal">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel text-xs font-medium text-brand-accentDark dark:text-brand-accent mb-8 shadow-sm">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-accent opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-brand-accent"></span>
+                    </span>
+                    Web App Live Now
                 </div>
-                <div class="px-8 py-4 rounded-full glass-panel font-semibold text-white opacity-80 cursor-not-allowed">
-                    Google Play (Coming Soon)
+                
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight font-serif leading-[1.1]">
+                    Read smarter, <br class="hidden md:block"/>
+                    <span class="gold-text-gradient italic">not harder.</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+                    A mastercrafted reading suite with deeply integrated Gemini AI, cross-device sync, and an infinite library to elevate your knowledge.
+                </p>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <!-- Web App -->
+                    <a href="https://ebookpro.web.app" target="_blank" class="group relative px-8 py-4 rounded-full bg-gray-900 dark:bg-brand-accent text-white dark:text-black font-semibold overflow-hidden transition-all hover:scale-105 hover:shadow-xl w-full sm:w-auto shadow-[0_0_20px_rgba(212,175,55,0.2)] dark:shadow-[0_0_40px_rgba(229,192,123,0.3)] border border-transparent dark:border-brand-accent">
+                        <span class="relative z-10 flex items-center justify-center gap-2">
+                            Launch Web App
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </span>
+                    </a>
+                    
+                    <!-- Google Play (Ready for Link) -->
+                    <a href="#" class="px-8 py-4 rounded-full glass-panel font-semibold text-gray-800 dark:text-white hover:bg-white/40 dark:hover:bg-white/5 transition-colors flex items-center justify-center gap-2 border border-gray-200 dark:border-white/10 hover:border-brand-accentDark dark:hover:border-brand-accent/50 w-full sm:w-auto shadow-sm">
+                        <svg class="w-5 h-5 text-gray-700 dark:text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186c-.161-.153-.26-.37-.26-.615V2.43c0-.246.099-.462.259-.616zm11.134 11.134l3.523 3.523-10.74 6.136 7.217-9.659zm.955-1.028l5.225-2.986c.642-.367.642-.962 0-1.329l-5.225-2.986-3.882 3.65 3.882 3.651zM4.322 2.656l10.421 5.955L10.86 12 4.322 2.656z"/></svg>
+                        Get on Android
+                    </a>
+
+                    <!-- App Store -->
+                    <div class="px-8 py-4 rounded-full glass-panel font-semibold text-gray-400 dark:text-gray-500 cursor-not-allowed flex items-center justify-center gap-2 border border-gray-100 dark:border-white/5 w-full sm:w-auto opacity-70">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.04 2.26-.74 3.6-.83 1.93-.07 3.44.82 4.39 2.27-3.7 2.2-2.98 7.02.83 8.44-.7 1.76-1.55 3.32-2.95 4.79-.17.18-.34.36-.95-2.5zm-3.66-15.1c-.24-2.18 1.4-4.14 3.49-4.32.33 2.37-1.74 4.35-3.49 4.32z"/></svg>
+                        iOS (Soon)
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- About / Features -->
-    <section id="about" class="py-20 bg-black/50 px-6">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass-panel p-8 rounded-3xl">
-                    <div class="w-12 h-12 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">AI Explanations</h3>
-                    <p class="text-gray-400">Highlight any confusing passage and let our secure Gemini AI explain it to you instantly in plain language.</p>
+        <!-- Features Section -->
+        <section id="features" class="py-24 px-6 border-t border-gray-200 dark:border-white/5 relative bg-white/50 dark:bg-brand-bg/50">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 font-serif">A suite of intelligent tools</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Everything you need to digest complex information faster.</p>
                 </div>
-                <div class="glass-panel p-8 rounded-3xl">
-                    <div class="w-12 h-12 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="glass-panel p-8 rounded-3xl reveal reveal-delay-1 hover:border-brand-accentDark dark:hover:border-brand-accent/30 transition-colors group">
+                        <div class="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-brand-surface border border-gray-200 dark:border-white/10 text-brand-accentDark dark:text-brand-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 font-serif">AI Explanations</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Highlight any confusing passage and let our secure Gemini AI explain it, translate it, or read it aloud instantly.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">Seamless Sync</h3>
-                    <p class="text-gray-400">Your library, reading progress, and custom highlights are securely backed up to the cloud and synced across devices.</p>
-                </div>
-                <div class="glass-panel p-8 rounded-3xl">
-                    <div class="w-12 h-12 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    
+                    <div class="glass-panel p-8 rounded-3xl reveal reveal-delay-2 hover:border-brand-accentDark dark:hover:border-brand-accent/30 transition-colors group">
+                        <div class="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-brand-surface border border-gray-200 dark:border-white/10 text-brand-accentDark dark:text-brand-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 font-serif">Seamless Sync</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">One sign-in accesses anywhere. Your imported PDFs, ePubs, progress, and highlights are backed up securely to the cloud.</p>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">True OLED Dark</h3>
-                    <p class="text-gray-400">Read comfortably at night with our custom-built typography engine featuring True Black paper themes to save battery.</p>
+                    
+                    <div class="glass-panel p-8 rounded-3xl reveal reveal-delay-3 hover:border-brand-accentDark dark:hover:border-brand-accent/30 transition-colors group">
+                        <div class="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-brand-surface border border-gray-200 dark:border-white/10 text-brand-accentDark dark:text-brand-accent flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold mb-3 font-serif">Focus & Streaks</h3>
+                        <p class="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">Build better reading habits with an immersive focus mode, daily streak tracking, and customizable daily reading goals.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Pricing (Required for Payment Gateway Approval) -->
-    <section id="pricing" class="py-20 px-6">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-3xl font-bold mb-12">Simple, transparent pricing</h2>
-            <div class="glass-panel max-w-md mx-auto p-8 rounded-3xl border-brand-accent/30 relative overflow-hidden">
-                <div class="absolute top-0 right-0 bg-brand-accent text-black text-xs font-bold px-4 py-1 rounded-bl-xl">POPULAR</div>
-                <h3 class="text-2xl font-bold mb-2">eBook Pro Premium</h3>
-                <div class="flex justify-center items-baseline gap-1 mb-6">
-                    <span class="text-4xl font-extrabold">₹9</span>
-                    <span class="text-gray-400">/ month</span>
+        <!-- Pricing / Tiers -->
+        <section id="pricing" class="py-24 px-6 relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 font-serif">Choose your experience</h2>
+                    <p class="text-gray-600 dark:text-gray-400">From casual browsing to an unlimited premium library.</p>
                 </div>
-                <ul class="text-left space-y-4 mb-8 text-gray-300">
-                    <li class="flex gap-3"><svg class="w-5 h-5 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Unlimited AI Explanations</li>
-                    <li class="flex gap-3"><svg class="w-5 h-5 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Exclusive Paper Themes</li>
-                    <li class="flex gap-3"><svg class="w-5 h-5 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Cloud Library Sync</li>
-                </ul>
-                <div class="w-full py-3 rounded-xl bg-brand-accent text-black font-bold opacity-50">Available In-App</div>
-            </div>
-        </div>
-    </section>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Guest Tier -->
+                    <div class="glass-panel p-8 rounded-3xl flex flex-col h-full border border-gray-200 dark:border-white/5 reveal reveal-delay-1 shadow-md">
+                        <h3 class="text-xl text-gray-500 dark:text-gray-400 font-medium mb-2 uppercase tracking-wider text-sm">Guest</h3>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="text-4xl font-serif font-bold text-gray-900 dark:text-white">Free</span>
+                        </div>
+                        <ul class="space-y-4 mb-8 text-gray-600 dark:text-gray-400 flex-grow text-sm">
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Browse book library (No downloads)</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Import custom PDFs, ePubs & texts</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Basic listen mode</span></li>
+                            <li class="flex gap-3 items-start text-gray-400 dark:text-gray-600"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> <span>No AI features or settings access</span></li>
+                        </ul>
+                        <a href="https://ebookpro.web.app" target="_blank" class="w-full py-3 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-brand-surface border border-gray-200 dark:border-white/10 dark:hover:bg-white/5 text-center text-gray-900 dark:text-white font-medium transition-colors">Try Now</a>
+                    </div>
 
-    <!-- Legal & Policies (CRITICAL FOR RAZORPAY) -->
-    <section id="legal" class="py-20 bg-black/50 px-6">
+                    <!-- Registered Tier -->
+                    <div class="glass-panel p-8 rounded-3xl flex flex-col h-full border border-brand-accentDark/30 dark:border-brand-accent/20 relative reveal reveal-delay-2 bg-gradient-to-b from-brand-accent/10 to-transparent dark:from-brand-accent/5 shadow-lg">
+                        <div class="absolute -top-3 inset-x-0 flex justify-center">
+                            <span class="bg-white dark:bg-brand-surface border border-brand-accentDark/30 dark:border-brand-accent/30 text-brand-accentDark dark:text-brand-accent text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md">Most Popular</span>
+                        </div>
+                        <h3 class="text-xl text-brand-accentDark dark:text-brand-accent font-medium mb-2 uppercase tracking-wider text-sm mt-2">Registered</h3>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="text-4xl font-serif font-bold text-gray-900 dark:text-white">Free</span>
+                        </div>
+                        <ul class="space-y-4 mb-8 text-gray-700 dark:text-gray-300 flex-grow text-sm">
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Download & read free books</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Universal cross-device sync</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Streaks, Focus Mode & Daily Goals</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Curl mode & Wikipedia access</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Gemini AI (3 queries/day per page)</span></li>
+                        </ul>
+                        <a href="https://ebookpro.web.app" target="_blank" class="w-full py-3 rounded-xl bg-brand-accent/20 hover:bg-brand-accent/30 dark:bg-brand-accent/10 dark:hover:bg-brand-accent/20 text-brand-accentDark dark:text-brand-accent text-center font-bold transition-colors border border-brand-accentDark/20 dark:border-brand-accent/20">Sign Up Free</a>
+                    </div>
+
+                    <!-- Premium Tier -->
+                    <div class="glass-panel p-8 rounded-3xl flex flex-col h-full border-2 border-brand-accent relative shadow-[0_10px_40px_rgba(212,175,55,0.15)] dark:shadow-[0_0_30px_rgba(229,192,123,0.1)] transform md:-translate-y-4 reveal reveal-delay-3 bg-white dark:bg-brand-surface">
+                        <div class="absolute top-0 right-0 bg-brand-accent text-white dark:text-brand-dark text-xs font-bold px-4 py-1.5 rounded-bl-xl rounded-tr-2xl uppercase tracking-widest shadow-sm">PRO</div>
+                        <h3 class="text-xl text-brand-accentDark dark:text-brand-accent font-medium mb-2 uppercase tracking-wider text-sm">Premium</h3>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="text-5xl font-serif font-bold text-gray-900 dark:text-white">₹9</span>
+                            <span class="text-gray-500 dark:text-gray-400">/mo</span>
+                        </div>
+                        <ul class="space-y-4 mb-8 text-gray-700 dark:text-gray-300 flex-grow text-sm">
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span class="font-semibold text-gray-900 dark:text-white">Unlimited AI, Translation & Audio</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Advanced notes & flashcards</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Millions of books in premium library</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Newspapers & research papers</span></li>
+                            <li class="flex gap-3 items-start"><svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>Early access to upcoming features</span></li>
+                        </ul>
+                        <div class="w-full py-3 rounded-xl bg-brand-accent text-white dark:text-brand-dark font-bold text-center shadow-[0_4px_14px_rgba(212,175,55,0.4)] cursor-default">Upgrade In-App</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Roadmap -->
+        <section id="roadmap" class="py-24 px-6 border-y border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-brand-bg relative overflow-hidden">
+            <div class="max-w-4xl mx-auto relative z-10">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 font-serif">Development Roadmap</h2>
+                    <p class="text-gray-600 dark:text-gray-400">We are constantly evolving. Here is a sneak peek at what is brewing.</p>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl reveal reveal-delay-1 flex items-start gap-4 hover:shadow-lg transition-shadow">
+                        <div class="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center shrink-0 border border-brand-accentDark/20 dark:border-brand-accent/20">
+                            <span class="text-brand-accentDark dark:text-brand-accent text-lg">📱</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white mb-2 font-serif">Native Applications</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Launching fully native apps for App Store (iPad, iPhone) and Google Play Store (Tablets, Mobile) for offline reliability.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-panel p-6 rounded-2xl reveal reveal-delay-2 flex items-start gap-4 hover:shadow-lg transition-shadow">
+                        <div class="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center shrink-0 border border-brand-accentDark/20 dark:border-brand-accent/20">
+                            <span class="text-brand-accentDark dark:text-brand-accent text-lg">📚</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white mb-2 font-serif">Unlimited Expansion</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Scaling our database to offer unlimited access to exclusive global newspapers and peer-reviewed research papers.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-panel p-6 rounded-2xl reveal reveal-delay-3 flex items-start gap-4 hover:shadow-lg transition-shadow">
+                        <div class="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center shrink-0 border border-brand-accentDark/20 dark:border-brand-accent/20">
+                            <span class="text-brand-accentDark dark:text-brand-accent text-lg">✨</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white mb-2 font-serif">Visual Immersion</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Introducing more font selections, highly realistic 3D book page-turning animations, and smoother UI transitions.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-panel p-6 rounded-2xl reveal reveal-delay-1 flex items-start gap-4 hover:shadow-lg transition-shadow">
+                        <div class="w-10 h-10 rounded-xl bg-brand-accent/10 flex items-center justify-center shrink-0 border border-brand-accentDark/20 dark:border-brand-accent/20">
+                            <span class="text-brand-accentDark dark:text-brand-accent text-lg">🔍</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900 dark:text-white mb-2 font-serif">Advanced PDF Tools</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Implementing dynamic Table of Contents generation for PDFs, deeper search, and smart flashcard generation sections.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="py-24 px-6 bg-white dark:bg-brand-dark transition-colors">
+            <div class="max-w-3xl mx-auto reveal">
+                <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center font-serif text-gray-900 dark:text-white">Frequently Asked Questions</h2>
+                
+                <div class="space-y-4">
+                    <!-- FAQ 1 -->
+                    <div class="glass-panel rounded-2xl border border-gray-200 dark:border-white/5 overflow-hidden">
+                        <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                            <span class="font-semibold text-lg text-gray-900 dark:text-white">What makes eBook Pro different?</span>
+                            <svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="faq-content bg-gray-50 dark:bg-white/5">
+                            <div class="px-6 pb-5 pt-2 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                                We combine a distraction-free reading interface with deep Gemini AI integration. This allows you to instantly translate, explain, or hear difficult passages without ever leaving your book.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="glass-panel rounded-2xl border border-gray-200 dark:border-white/5 overflow-hidden">
+                        <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                            <span class="font-semibold text-lg text-gray-900 dark:text-white">Can I read my own books?</span>
+                            <svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="faq-content bg-gray-50 dark:bg-white/5">
+                            <div class="px-6 pb-5 pt-2 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                                Absolutely. Even on the free Guest tier, you can import your own PDF, ePub, or plain text files into the app for a premium reading experience.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="glass-panel rounded-2xl border border-gray-200 dark:border-white/5 overflow-hidden">
+                        <button class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none">
+                            <span class="font-semibold text-lg text-gray-900 dark:text-white">How does cloud sync work?</span>
+                            <svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div class="faq-content bg-gray-50 dark:bg-white/5">
+                            <div class="px-6 pb-5 pt-2 text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                                Once you register for a free account, your reading progress, imported files, highlights, and AI-generated notes are securely synced to our cloud. You can log in on any device and pick up exactly where you left off.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ============================================== -->
+    <!-- VIEW: LEGAL (Policies & Terms)                 -->
+    <!-- ============================================== -->
+    <main id="view-legal" class="hidden relative z-10 pt-40 pb-24 px-6 flex-grow">
         <div class="max-w-4xl mx-auto">
-            <h2 class="text-3xl font-bold mb-12 text-center border-b border-white/10 pb-6">Legal & Policies</h2>
+            <button onclick="switchView('home')" class="mb-8 flex items-center gap-2 text-gray-500 hover:text-brand-accentDark dark:text-gray-400 dark:hover:text-brand-accent transition-colors text-sm font-medium">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Home
+            </button>
             
-            <div class="space-y-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-12 font-serif border-b border-gray-200 dark:border-white/10 pb-6 text-gray-900 dark:text-white">Legal & Policies</h1>
+            
+            <div class="space-y-12 md:space-y-16">
                 <!-- Terms & Conditions -->
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 text-brand-accent">Terms & Conditions</h3>
-                    <p class="text-gray-400 text-sm mb-4">Last Updated: July 2026</p>
-                    <div class="prose prose-invert max-w-none text-gray-300 text-sm space-y-3">
+                <div class="glass-panel p-6 md:p-8 rounded-3xl">
+                    <h3 class="text-2xl font-bold mb-2 text-brand-accentDark dark:text-brand-accent font-serif">Terms & Conditions</h3>
+                    <p class="text-gray-500 text-xs mb-6 uppercase tracking-wider">Last Updated: July 2026</p>
+                    <div class="prose prose-sm md:prose-base dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 space-y-4">
                         <p>By downloading or using the eBook Pro application, these terms will automatically apply to you. You should make sure therefore that you read them carefully before using the app.</p>
                         <p>You are not allowed to copy or modify the app, any part of the app, or our trademarks in any way. You are not allowed to attempt to extract the source code of the app. The app itself, and all the trademarks, copyright, database rights, and other intellectual property rights related to it, belong to eBook Pro.</p>
                         <p>eBook Pro stores and processes personal data that you have provided to us, to provide our Service. It is your responsibility to keep your phone and access to the app secure.</p>
@@ -139,54 +443,142 @@
                 </div>
 
                 <!-- Privacy Policy -->
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 text-brand-accent">Privacy Policy</h3>
-                    <div class="prose prose-invert max-w-none text-gray-300 text-sm space-y-3">
-                        <p><strong>1. Information We Collect:</strong> We collect information necessary to provide you with the best reading experience, including your email address (for account recovery), reading progress (to sync across devices), and highlight data.</p>
-                        <p><strong>2. How We Use Information:</strong> We use this data solely to sync your library and secure your account. We never sell your personal data to third parties.</p>
-                        <p><strong>3. Data Deletion:</strong> You can permanently delete your account and all associated data at any time from the 'Security' section in your account settings within the app. Upon deletion, all reading data and identifying information is permanently wiped from our servers.</p>
-                        <p><strong>4. Third-Party Services:</strong> The app uses third-party services that may collect information used to identify you. Services used include Google Play Services, Firebase Analytics, and Razorpay (for processing payments).</p>
+                <div class="glass-panel p-6 md:p-8 rounded-3xl">
+                    <h3 class="text-2xl font-bold mb-6 text-brand-accentDark dark:text-brand-accent font-serif">Privacy Policy</h3>
+                    <div class="prose prose-sm md:prose-base dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 space-y-4">
+                        <p><strong class="text-gray-900 dark:text-white">1. Information We Collect:</strong> We collect information necessary to provide you with the best reading experience, including your email address (for account recovery), reading progress (to sync across devices), and highlight data.</p>
+                        <p><strong class="text-gray-900 dark:text-white">2. How We Use Information:</strong> We use this data solely to sync your library and secure your account. We never sell your personal data to third parties.</p>
+                        <p><strong class="text-gray-900 dark:text-white">3. Data Deletion:</strong> You can permanently delete your account and all associated data at any time from the 'Security' section in your account settings within the app. Upon deletion, all reading data and identifying information is permanently wiped from our servers.</p>
+                        <p><strong class="text-gray-900 dark:text-white">4. Third-Party Services:</strong> The app uses third-party services that may collect information used to identify you. Services used include Google Play Services, Firebase Analytics, and Razorpay (for processing payments).</p>
                     </div>
                 </div>
 
                 <!-- Refund Policy -->
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 text-brand-accent">Cancellation & Refund Policy</h3>
-                    <div class="prose prose-invert max-w-none text-gray-300 text-sm space-y-3">
-                        <p><strong>Cancellations:</strong> You may cancel your eBook Pro Premium subscription at any time. Cancellation will take effect at the end of the current billing cycle, and you will not be charged for the subsequent month. You will retain access to premium features until the end of your current cycle.</p>
-                        <p><strong>Refunds:</strong> Because eBook Pro Premium grants immediate access to digital content, cloud resources, and AI APIs, <strong>all purchases are final and non-refundable (0 Days Refund Policy)</strong>. We do not offer refunds or credits for partially used billing periods.</p>
+                <div class="glass-panel p-6 md:p-8 rounded-3xl border border-red-500/30 dark:border-red-500/20">
+                    <h3 class="text-2xl font-bold mb-6 text-brand-accentDark dark:text-brand-accent font-serif">Cancellation & Refund Policy</h3>
+                    <div class="prose prose-sm md:prose-base dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 space-y-4">
+                        <p><strong class="text-gray-900 dark:text-white">Cancellations:</strong> You may cancel your eBook Pro Premium subscription at any time. Cancellation will take effect at the end of the current billing cycle, and you will not be charged for the subsequent month. You will retain access to premium features until the end of your current cycle.</p>
+                        <p><strong class="text-gray-900 dark:text-white">Refunds:</strong> Because eBook Pro Premium grants immediate access to digital content, cloud resources, and AI APIs, <strong class="text-red-600 dark:text-red-400">all purchases are final and non-refundable (0 Days Refund Policy)</strong>. We do not offer refunds or credits for partially used billing periods.</p>
                         <p>If you experience technical issues that prevent you from accessing the premium features you paid for, please contact our support team immediately for assistance.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
-    <!-- Footer / Contact -->
-    <footer id="contact" class="border-t border-white/10 py-12 px-6">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8 text-sm text-gray-400">
-            <div>
-                <span class="font-bold text-white text-lg">eBook Pro</span>
-                <p class="mt-2">&copy; 2026 eBook Pro. All rights reserved.</p>
+    <!-- Footer (Visible on both views) -->
+    <footer class="border-t border-gray-200 dark:border-white/5 py-12 px-6 relative z-10 bg-white dark:bg-brand-dark transition-colors">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 text-sm text-gray-600 dark:text-gray-400">
+            <div class="md:w-1/3">
+                <div class="flex items-center gap-2 mb-4">
+                    <svg class="w-5 h-5 text-brand-accentDark dark:text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span class="font-bold text-gray-900 dark:text-white text-lg font-serif">eBook Pro</span>
+                </div>
+                <p class="mb-6 leading-relaxed">Elevating the digital reading experience with intelligent tools and beautiful design.</p>
+                <p>&copy; 2026 eBook Pro. All rights reserved.</p>
             </div>
             
-            <div class="md:text-right">
-                <p class="font-bold text-white mb-4 text-lg">Contact & Operations</p>
-                
-                <!-- RAZORPAY COMPLIANCE: They require an operating address and phone number -->
-                <p class="mb-1"><strong>Operating Address:</strong></p>
-                <p class="mb-4">Varanasi, Uttar Pradesh, India - 221001</p> <!-- Feel free to update this to your real local address or keep it generic -->
-                
-                <p class="mb-1"><strong>Phone Number:</strong></p>
-                <p class="mb-4">+91 **********</p> <!-- Change to your phone or keep dummy -->
+            <div class="flex flex-col gap-3">
+                <p class="font-bold text-gray-900 dark:text-white mb-2 text-base">Quick Links</p>
+                <button onclick="switchView('home')" class="text-left hover:text-brand-accentDark dark:hover:text-brand-accent transition-colors">Home & Features</button>
+                <a href="https://ebookpro.web.app" target="_blank" class="hover:text-brand-accentDark dark:hover:text-brand-accent transition-colors">Launch Web App</a>
+                <button onclick="switchView('legal')" class="text-left hover:text-brand-accentDark dark:hover:text-brand-accent transition-colors">Privacy & Legal Docs</button>
+            </div>
 
-                <p class="mb-1"><strong>Support Email:</strong></p>
-                <a href="mailto:support.ebookpro@gmail.com" class="text-brand-accent hover:underline">support.ebookpro@gmail.com</a>
-                <p class="mt-2">Response time: 24-48 hours</p>
+            <div class="md:text-right md:w-1/3 w-full">
+                <p class="font-bold text-gray-900 dark:text-white mb-4 text-base">Contact & Operations</p>
+                <div class="space-y-2">
+                    <p>Varanasi, Uttar Pradesh, India - 221001</p> 
+                    <p>+91 9999999999</p> 
+                    <a href="mailto:support.ebookpro@gmail.com" class="text-brand-accentDark dark:text-brand-accent hover:underline block mt-4 break-all">support.ebookpro@gmail.com</a>
+                </div>
             </div>
         </div>
     </footer>
 
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Mobile Menu Logic ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                // Change to close (X) icon
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>';
+            } else {
+                menu.classList.add('hidden');
+                // Change back to hamburger icon
+                icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
+            }
+        }
+
+        function closeMobileMenuAndSwitch(viewName) {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            
+            menu.classList.add('hidden');
+            icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>';
+            switchView(viewName);
+        }
+
+        // --- Single Page Application (SPA) Logic ---
+        function switchView(viewName) {
+            const homeView = document.getElementById('view-home');
+            const legalView = document.getElementById('view-legal');
+            
+            if (viewName === 'home') {
+                homeView.classList.remove('hidden');
+                legalView.classList.add('hidden');
+            } else if (viewName === 'legal') {
+                homeView.classList.add('hidden');
+                legalView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // --- Scroll Reveal Animation Logic ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const reveals = document.querySelectorAll('.reveal');
+
+            const revealOnScroll = () => {
+                const windowHeight = window.innerHeight;
+                const elementVisible = 100;
+
+                reveals.forEach((reveal) => {
+                    const elementTop = reveal.getBoundingClientRect().top;
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveal.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', revealOnScroll);
+            revealOnScroll(); // Trigger once on load
+        });
+
+        // --- FAQ Accordion Logic ---
+        const faqButtons = document.querySelectorAll('.faq-btn');
+        faqButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('svg');
+                
+                // Toggle active class
+                this.classList.toggle('active');
+                
+                // Animate content
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 
