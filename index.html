@@ -1,278 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abhishek Sharma - Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eBook Pro | Premium Reading Experience</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#1C1C1E',
+                            accent: '#D4AF37', // Gold/Amber accent
+                            light: '#F2F2F7'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+                        serif: ['Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
 </head>
-<body>
-  <nav id="navbar">
-    <div class="nav-content" id="nav-content">
-      <div class="nav-logo" onclick="scrollToSection('home')">
-        <span class="grad-text">Abhishek</span>
-        <span style="color: var(--text); margin-left: 4px;">Sharma</span>
-      </div>
-      <div class="desktop-nav">
-        <button onclick="scrollToSection('home')">Home</button>
-        <button onclick="scrollToSection('journey')">Journey</button>
-        <button onclick="scrollToSection('projects')">Projects</button>
-        <button onclick="scrollToSection('contact')">Contact</button>
-      </div>
-      <button class="hamburger-btn" id="mobile-menu-btn">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="mobile-menu" id="mobile-menu">
-      <button onclick="scrollToSection('home')">Home</button>
-      <button onclick="scrollToSection('journey')">Journey</button>
-      <button onclick="scrollToSection('projects')">Projects</button>
-      <button onclick="scrollToSection('contact')">Contact</button>
-    </div>
-  </nav>
+<body class="bg-brand-dark text-white font-sans antialiased selection:bg-brand-accent selection:text-black">
 
-  <section id="home" class="hero-section">
-    <div class="hero-orb orb-1"></div>
-    <div class="hero-orb orb-2"></div>
-    <div class="hero-orb orb-3"></div>
-    
-    <div class="hero-content">
-      <div class="status-badge anim-fade-up" style="animation-delay: 0s;">
-        <div class="status-dot"></div>
-        <span>Open to Collaboration · India</span>
-      </div>
-      <div class="anim-fade-up" style="animation-delay: 0.1s; margin-bottom: 16px;">
-        <span class="greeting">Hi, I'm</span>
-      </div>
-      <h1 class="anim-fade-up" style="animation-delay: 0.15s;">Abhishek Sharma</h1>
-      <p class="subheadline anim-fade-up" style="animation-delay: 0.25s;">
-        Full-Stack Engineer · iOS Developer · AI/ML Builder · Digital Entrepreneur.<br>
-        <span style="color: var(--muted2);">Crafting tools at the intersection of&nbsp;</span>
-        <span class="grad-text" style="font-weight: 600;">ancient language & modern computation.</span>
-      </p>
-      <div class="cta-group anim-fade-up" style="animation-delay: 0.35s;">
-        <button class="btn btn-primary" onclick="scrollToSection('journey')">
-          Explore My Journey 
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-        <button class="btn btn-ghost" onclick="scrollToSection('contact')">Get in Touch</button>
-      </div>
-      <div class="scroll-hint anim-fade-up" style="animation-delay: 0.5s;">
-        <span>SCROLL TO EXPLORE</span>
-        <div class="scroll-line"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="journey" class="journey-section">
-    <div class="journey-bg"></div>
-    <div class="journey-container">
-      <div class="journey-header">
-        <div style="margin-bottom: 16px;"><span class="section-tag">TIMELINE</span></div>
-        <h2>The Journey So Far</h2>
-        <p>Click any node to illuminate the path. Each selection charges the trail.</p>
-      </div>
-      
-      <div class="timeline-wrapper" data-timeline="true">
-        <div class="timeline-spine"></div>
-
-        <div class="timeline-node" data-node="birth">
-          <div class="node-trigger"><div class="node-ring" style="--node-color: #F59E0B">✦</div></div>
-          <div class="timeline-card left-card" data-trigger="true" style="--node-color: #F59E0B">
-            <div class="card-header">
-              <div>
-                <div class="card-label">Origin · 2003</div>
-                <div class="card-title">The Beginning</div>
-              </div>
-              <div class="card-dot"></div>
-            </div>
-            <div class="card-content">
-              <p class="node-body">Born in India with an innate curiosity for systems, patterns, and how things fit together. From the earliest age, technology and language were not just interests — they were ways of seeing the world.</p>
-              <div class="tag-row"><span class="tag teal">India</span><span class="tag teal">New Chapter</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-node" data-node="school">
-          <div class="node-trigger"><div class="node-ring" style="--node-color: #10B981">◈</div></div>
-          <div class="timeline-card right-card" data-trigger="true" style="--node-color: #10B981">
-            <div class="card-header">
-              <div>
-                <div class="card-label">Schooling · 2009–2021</div>
-                <div class="card-title">Foundation Years</div>
-              </div>
-              <div class="card-dot"></div>
-            </div>
-            <div class="card-content">
-              <p class="node-body">Twelve years of building the intellectual bedrock — mathematics, science, and early programming exposure. Participated in Olympiads, developed a love for problem decomposition, and first encountered the Sanskrit language that would later define one of my most unique projects.</p>
-              <div class="tag-row"><span class="tag teal">CBSE</span><span class="tag teal">Science</span><span class="tag teal">Mathematics</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-node" data-node="college">
-          <div class="node-trigger"><div class="node-ring" style="--node-color: #6366F1">⬡</div></div>
-          <div class="timeline-card left-card" data-trigger="true" style="--node-color: #6366F1">
-            <div class="card-header">
-              <div>
-                <div class="card-label">College · 2021–Present</div>
-                <div class="card-title">B.Tech in Computer Science</div>
-              </div>
-              <div class="card-dot"></div>
-            </div>
-            <div class="card-content">
-              <p class="node-body">Pursuing a Bachelor of Technology in Computer Science & Engineering. Dived deep into data structures, algorithms, distributed systems, and software architecture. College became the crucible where theoretical knowledge met real-world building.</p>
-              <div class="tag-row"><span class="tag teal">B.Tech</span><span class="tag teal">CS & Engineering</span><span class="tag teal">CGPA 8.4+</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-node" data-node="sidedegree">
-          <div class="node-trigger"><div class="node-ring" style="--node-color: #F97316">ॐ</div></div>
-          <div class="timeline-card right-card" data-trigger="true" style="--node-color: #F97316">
-            <div class="card-header">
-              <div>
-                <div class="card-label">Side Degree · 2022–Present</div>
-                <div class="card-title">Vedic Studies & Sanskrit</div>
-              </div>
-              <div class="card-dot"></div>
-            </div>
-            <div class="card-content">
-              <p class="node-body">Simultaneously pursuing a Certificate/Diploma in Sanskrit and Vedic Literature — an academic double-down that bridges ancient Indian linguistic systems with modern computational thinking. This cross-disciplinary path has directly fuelled my most distinctive technical work.</p>
-              <div class="tag-row"><span class="tag teal">Sanskrit</span><span class="tag teal">Vedic Studies</span><span class="tag teal">Linguistics</span></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="timeline-node" data-node="skills">
-          <div class="node-trigger"><div class="node-ring" style="--node-color: #8B5CF6">⚡</div></div>
-          <div class="timeline-card left-card" data-trigger="true" style="--node-color: #8B5CF6">
-            <div class="card-header">
-              <div>
-                <div class="card-label">Skills · 2022–Present</div>
-                <div class="card-title">Technical Arsenal</div>
-              </div>
-              <div class="card-dot"></div>
-            </div>
-            <div class="card-content">
-              <p class="node-body">A deliberately curated tech stack built for depth over breadth:</p>
-              <div class="skill-grid">
-                <div class="skill-item">
-                  <div style="font-size: 18px; margin-bottom: 6px;">🌐</div>
-                  <div class="skill-title">Full-Stack Web Dev</div>
-                  <div class="skill-desc">React, Next.js, Node.js, PostgreSQL, REST & GraphQL APIs</div>
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-b border-white/10">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-full bg-brand-accent/20 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-brand-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 </div>
-                <div class="skill-item">
-                  <div style="font-size: 18px; margin-bottom: 6px;">🤖</div>
-                  <div class="skill-title">Python & AI/ML</div>
-                  <div class="skill-desc">TensorFlow, PyTorch, scikit-learn, LLM fine-tuning, RAG pipelines</div>
-                </div>
-                <div class="skill-item">
-                  <div style="font-size: 18px; margin-bottom: 6px;">⬡</div>
-                  <div class="skill-title">iOS / Swift</div>
-                  <div class="skill-desc">UIKit, SwiftUI, Core Data, custom input methods, App Store delivery</div>
-                </div>
-              </div>
-              <div class="tag-row"><span class="tag teal">Full-Stack</span><span class="tag teal">Python</span><span class="tag teal">Swift</span></div>
+                <span class="text-xl font-bold tracking-tight">eBook Pro</span>
             </div>
-          </div>
+            <div class="hidden md:flex gap-6 text-sm font-medium text-gray-300">
+                <a href="#about" class="hover:text-brand-accent transition-colors">Features</a>
+                <a href="#pricing" class="hover:text-brand-accent transition-colors">Pricing</a>
+                <a href="#legal" class="hover:text-brand-accent transition-colors">Legal & Policies</a>
+                <a href="#contact" class="hover:text-brand-accent transition-colors">Contact</a>
+            </div>
         </div>
+    </nav>
 
-        <div class="timeline-node" data-node="projects">
-          <div class="node-trigger"><div class="node-ring" style="--node-color: #2DD4BF">◉</div></div>
-          <div class="timeline-card right-card" data-trigger="true" style="--node-color: #2DD4BF">
-            <div class="card-header">
-              <div>
-                <div class="card-label">Projects · 2023–Present</div>
-                <div class="card-title">Shipped Work</div>
-              </div>
-              <div class="card-dot"></div>
-            </div>
-            <div class="card-content">
-              <p class="node-body">Two flagship projects that define my identity as a builder:</p>
-              
-              <div class="project-item" style="border-color: rgba(45,212,191,0.4); box-shadow: 0 8px 32px rgba(45,212,191,0.1);">
-                <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
-                  <div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; color: #2DD4BF;">VaakBoard — Sanskrit Keyboard</div>
-                  <span style="font-size: 10px; padding: 2px 8px; border-radius: 100px; background: #10B98115; color: #10B981; border: 1px solid #10B98130; font-family: 'JetBrains Mono', monospace;">● Live on App Store</span>
+    <!-- Hero Section -->
+    <header class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden px-6">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-accent/20 rounded-full blur-[120px] opacity-50 pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight font-serif">Read smarter, <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-yellow-200">not harder.</span></h1>
+            <p class="text-xl text-gray-400 mb-10 max-w-2xl mx-auto">A premium digital reading experience with AI-powered explanations, smart flashcards, and cross-device cloud sync.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <div class="px-8 py-4 rounded-full bg-white text-black font-semibold shadow-[0_0_40px_rgba(212,175,55,0.3)] opacity-80 cursor-not-allowed">
+                    App Store (Coming Soon)
                 </div>
-                <p style="font-size: 13px; color: #94A3B8; line-height: 1.65; margin-bottom: 16px;">A native application delivering a fully custom Sanskrit keyboard with IAST transliteration, Devanāgarī output, and phonetic input mapping. Bridges academic transliteration standards with a native OS extension.</p>
-                <a href="sanskrit-keyboard.html" class="btn btn-primary" style="margin-bottom: 12px; font-size: 13px; padding: 10px 20px;">
-                  Try Web Demo & Download <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </a>
-                <div class="tag-row"><span class="tag">Swift</span><span class="tag">Kotlin</span><span class="tag">IAST</span></div>
-              </div>
-
-              <div class="project-item">
-                <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;">
-                  <div style="font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; color: #E8EDF5;">Udyam-Registered Digital Studio</div>
-                  <span style="font-size: 10px; padding: 2px 8px; border-radius: 100px; background: #10B98115; color: #10B981; border: 1px solid #10B98130; font-family: 'JetBrains Mono', monospace;">● Operational</span>
+                <div class="px-8 py-4 rounded-full glass-panel font-semibold text-white opacity-80 cursor-not-allowed">
+                    Google Play (Coming Soon)
                 </div>
-                <p style="font-size: 13px; color: #64748B; line-height: 1.65; margin-bottom: 10px;">Founded and registered a digital services business under India's MSME framework. Offers web development and AI integrations to clients.</p>
-                <div class="tag-row"><span class="tag">MSME</span><span class="tag">Entrepreneurship</span></div>
-              </div>
             </div>
-          </div>
         </div>
+    </header>
 
-        <div class="timeline-node" data-node="future">
-          <div class="node-trigger"><div class="node-ring" style="--node-color: #6366F1">◈</div></div>
-          <div class="timeline-card left-card" data-trigger="true" style="--node-color: #6366F1">
-            <div class="card-header">
-              <div>
-                <div class="card-label">Future · ∞</div>
-                <div class="card-title">What's Next</div>
-              </div>
-              <div class="card-dot"></div>
-            </div>
-            <div class="card-content">
-              <p class="node-body">The path ahead is being written. If you're building something meaningful — reach out.</p>
-              <div class="contact-card" style="padding: 0; box-shadow: none; border: none; background: transparent; margin-top: 16px;">
-                <div class="form-group" id="form-container-timeline">
-                  <input class="input-field" placeholder="Your name" id="t-fname">
-                  <input class="input-field" type="email" placeholder="your@email.com" id="t-femail">
-                  <textarea class="input-field" placeholder="What are you building?" rows="3" style="resize: none;" id="t-fmsg"></textarea>
-                  <button class="btn btn-primary" style="align-self: flex-start;" onclick="submitForm(this, 't-fname', 't-fmsg')">
-                    Send Message
-                  </button>
+    <!-- About / Features -->
+    <section id="about" class="py-20 bg-black/50 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-3xl">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">AI Explanations</h3>
+                    <p class="text-gray-400">Highlight any confusing passage and let our secure Gemini AI explain it to you instantly in plain language.</p>
                 </div>
-              </div>
+                <div class="glass-panel p-8 rounded-3xl">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Seamless Sync</h3>
+                    <p class="text-gray-400">Your library, reading progress, and custom highlights are securely backed up to the cloud and synced across devices.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-3xl">
+                    <div class="w-12 h-12 rounded-2xl bg-brand-accent/20 text-brand-accent flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">True OLED Dark</h3>
+                    <p class="text-gray-400">Read comfortably at night with our custom-built typography engine featuring True Black paper themes to save battery.</p>
+                </div>
             </div>
-          </div>
         </div>
+    </section>
 
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact-section">
-    <div class="contact-container">
-      <div style="margin-bottom: 12px;"><span class="section-tag teal-tag">CONTACT</span></div>
-      <h2>Let's Build Something</h2>
-      <p class="contact-subtext">Reach out below, or use the form in the <strong style="color: var(--accent);">∞ Future</strong> node above.</p>
-      <div class="contact-card">
-        <div class="form-group" id="form-container-main">
-          <input class="input-field" placeholder="Your name" id="m-fname">
-          <input class="input-field" type="email" placeholder="your@email.com" id="m-femail">
-          <textarea class="input-field" placeholder="What are you building?" rows="4" style="resize: none;" id="m-fmsg"></textarea>
-          <button class="btn btn-primary" style="align-self: flex-start;" onclick="submitForm(this, 'm-fname', 'm-fmsg')">
-            Send Message
-          </button>
+    <!-- Pricing (Required for Payment Gateway Approval) -->
+    <section id="pricing" class="py-20 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-12">Simple, transparent pricing</h2>
+            <div class="glass-panel max-w-md mx-auto p-8 rounded-3xl border-brand-accent/30 relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-brand-accent text-black text-xs font-bold px-4 py-1 rounded-bl-xl">POPULAR</div>
+                <h3 class="text-2xl font-bold mb-2">eBook Pro Premium</h3>
+                <div class="flex justify-center items-baseline gap-1 mb-6">
+                    <span class="text-4xl font-extrabold">₹1.9</span>
+                    <span class="text-gray-400">/ month</span>
+                </div>
+                <ul class="text-left space-y-4 mb-8 text-gray-300">
+                    <li class="flex gap-3"><svg class="w-5 h-5 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Unlimited AI Explanations</li>
+                    <li class="flex gap-3"><svg class="w-5 h-5 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Exclusive Paper Themes</li>
+                    <li class="flex gap-3"><svg class="w-5 h-5 text-brand-accent shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Cloud Library Sync</li>
+                </ul>
+                <div class="w-full py-3 rounded-xl bg-brand-accent text-black font-bold opacity-50">Available In-App</div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <footer class="site-footer">
-    <div class="footer-container">
-      <div class="footer-logo"><span class="grad-text">Abhishek</span><span>Sharma</span></div>
-      <p class="footer-tagline">builder · thinker · linguist</p>
-      <div class="social-links" id="social-links"></div>
-      <div class="footer-divider"></div>
-      <p class="copyright">© 2026 Abhishek Sharma · Built with intention</p>
-    </div>
-  </footer>
+    <!-- Legal & Policies (CRITICAL FOR RAZORPAY) -->
+    <section id="legal" class="py-20 bg-black/50 px-6">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold mb-12 text-center border-b border-white/10 pb-6">Legal & Policies</h2>
+            
+            <div class="space-y-12">
+                <!-- Terms & Conditions -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-brand-accent">Terms & Conditions</h3>
+                    <p class="text-gray-400 text-sm mb-4">Last Updated: July 2026</p>
+                    <div class="prose prose-invert max-w-none text-gray-300 text-sm space-y-3">
+                        <p>By downloading or using the eBook Pro application, these terms will automatically apply to you. You should make sure therefore that you read them carefully before using the app.</p>
+                        <p>You are not allowed to copy or modify the app, any part of the app, or our trademarks in any way. You are not allowed to attempt to extract the source code of the app. The app itself, and all the trademarks, copyright, database rights, and other intellectual property rights related to it, belong to eBook Pro.</p>
+                        <p>eBook Pro stores and processes personal data that you have provided to us, to provide our Service. It is your responsibility to keep your phone and access to the app secure.</p>
+                        <p>We reserve the right to make changes to the app or to charge for its services, at any time and for any reason. We will never charge you for the app or its services without making it very clear to you exactly what you are paying for.</p>
+                    </div>
+                </div>
 
-  <script src="script.js"></script>
+                <!-- Privacy Policy -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-brand-accent">Privacy Policy</h3>
+                    <div class="prose prose-invert max-w-none text-gray-300 text-sm space-y-3">
+                        <p><strong>1. Information We Collect:</strong> We collect information necessary to provide you with the best reading experience, including your email address (for account recovery), reading progress (to sync across devices), and highlight data.</p>
+                        <p><strong>2. How We Use Information:</strong> We use this data solely to sync your library and secure your account. We never sell your personal data to third parties.</p>
+                        <p><strong>3. Data Deletion:</strong> You can permanently delete your account and all associated data at any time from the 'Security' section in your account settings within the app.</p>
+                        <p><strong>4. Third-Party Services:</strong> The app uses third-party services that may collect information used to identify you. Services used include Google Play Services, Firebase Analytics, and Razorpay (for processing payments).</p>
+                    </div>
+                </div>
+
+                <!-- Refund Policy -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-brand-accent">Cancellation & Refund Policy</h3>
+                    <div class="prose prose-invert max-w-none text-gray-300 text-sm space-y-3">
+                        <p><strong>Cancellations:</strong> You may cancel your eBook Pro Premium subscription at any time. Cancellation will take effect at the end of the current billing cycle, and you will not be charged for the subsequent month. You will retain access to premium features until the end of your current cycle.</p>
+                        <p><strong>Refunds:</strong> Because eBook Pro Premium grants immediate access to digital content, cloud resources, and AI APIs, <strong>all purchases are final and non-refundable</strong>. We do not offer refunds or credits for partially used billing periods.</p>
+                        <p>If you experience technical issues that prevent you from accessing the premium features you paid for, please contact our support team immediately for assistance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="border-t border-white/10 py-12 px-6">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-400">
+            <div>
+                <span class="font-bold text-white text-lg">eBook Pro</span>
+                <p class="mt-2">&copy; 2026 eBook Pro. All rights reserved.</p>
+            </div>
+            
+            <div class="text-center md:text-right">
+                <p class="font-bold text-white mb-2">Contact Support</p>
+                <p>Have questions or need help with your account?</p>
+                <!-- UPDATE THIS EMAIL BEFORE DEPLOYING -->
+                <a href="mailto:support.ebookpro@gmail.com" class="text-brand-accent hover:underline">support.ebookpro@gmail.com</a>
+                <p class="mt-2">Response time: 24-48 hours</p>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
+
